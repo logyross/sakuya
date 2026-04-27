@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+import argparse, sys
+
+def main():
+    """Main execution"""
+    args = parse_arguments()
+    if args.mode == 'list':
+        print("No arguments")
+    else:
+        print(f"split={args.name}, amount={args.amount}, from={args._from}")
+    
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(prog='sakuya', description='CLI timekeeping utility')
+    subparsers = parser.add_subparsers(dest="mode", title="modes")
+
+    default_parser = subparsers.add_parser("list", help="Run with defaults")
+
+    split_parser = subparsers.add_parser("split", help="split")
+
+    split_parser.add_argument("--name", "-n", required=True, help="insert new time entry")
+    split_parser.add_argument("--amount", "-a", required=True, help="the amount of time it took in 00h00m format")
+    split_parser.add_argument("--from", "-f", dest="_from", type=int, default=0, help="which time entry should this split off of as no (default is 0")
+    subparsers.default = 'list'
+    
+    return parser.parse_args()
+
+def split_time_entry(name, amount, _from):
+        print(name, amount, _from)
+
+def list_all_time_entries():
+    print("list!")
+        
+if __name__ == "__main__":
+    main()
